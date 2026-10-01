@@ -204,7 +204,8 @@ else:
         c_af = st.session_state.map_vector_colors["Africa_Sectors"]
         c_oc = st.session_state.map_vector_colors["Oceania_Base"]
         
-        st.markdown(f"""
+        st.markdown(f'<div class="top-notification-banner">👑 Sovereign Territory: {st.session_state.player_country} | Active Party: {st.session_state.player_party}</div>', unsafe_allow_html=True)
+
             <div style="background-color: #060608; border: 1px solid #1A1A24; border-radius: 8px; padding: 16px; text-align: center;">
                 <svg viewBox="0 0 800 400" xmlns="http://w3.org" style="width: 100%; height: auto;">
                     <rect x="40" y="30" width="240" height="140" rx="12" fill="{c_na}" opacity="0.85"/>
