@@ -212,32 +212,3 @@ else:
                     <text x="60" y="60" fill="#fff" font-size="12" font-weight="bold">North America</text>
                     
                     <rect x="160" y="210" width="140" height="150" rx="12" fill="{c_sa}" opacity="0.85"/>
-tón Rayne @Anton
-Como pueden detener la ley si tenemos la mayoría del congreso
-
-""", unsafe_allow_html=True)
-else st.session_state.active_view == "HUB":
-st.subheader("🛠️ Operations Menu Hub")
-st.markdown('', unsafe_allow_html=True)
-hub_modules = ["Economía", "Organizaciones", "Conflicto", "Personal", "Conocimiento", "Universidad", "Ranking", "Ajustes"]
-for mod in hub_modules:
-st.markdown(f"""
-
-📦
-{mod}
-
-""", unsafe_allow_html=True)
-st.markdown('', unsafe_allow_html=True)
-# ----------------------------------------------------
-# FIXED REAL-TIME NAVIGATION MENU BAR
-# ----------------------------------------------------
-st.markdown('', unsafe_allow_html=True) # Space buffer block
-col_nav1, col_nav2, col_nav3, col_nav4 = st.columns(4)
-with col_nav1:
-if st.button("🏠", help="Profile Dashboard Panel"): st.session_state.active_view = "HOME"; st.rerun()
-with col_nav2:
-if st.button("🔀", help="Social Feed Matrices"): st.session_state.active_view = "NETWORK"; st.rerun()
-with col_nav3:
-if st.button("🗺️", help="Vector Viewport Map"): st.session_state.active_view = "WORLD"; st.rerun()
-with col_nav4:
-if st.button("☰", help="More Menu Hub List"): st.session_state.active_view = "HUB"; st.rerun()
