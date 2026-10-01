@@ -166,7 +166,7 @@ if st.button("⚡ Advance Real-Time Simulation Heartbeat", key="pulse_tick"):
     st.rerun()
 st.markdown('</div>', unsafe_allow_html=True)
 
-# --- 2. COMPLETE 16-OPTION NAVIGATION HUB GRID (From your layout screenshots) ---
+# --- 2. COMPLETE 16-OPTION NAVIGATION HUB GRID ---
 st.markdown('<div class="section-header-title">🛠️ Master Operations Hub</div>', unsafe_allow_html=True)
 
 st.markdown("""
