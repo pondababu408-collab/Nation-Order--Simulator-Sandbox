@@ -216,7 +216,7 @@ tón Rayne @Anton
 Como pueden detener la ley si tenemos la mayoría del congreso
 
 """, unsafe_allow_html=True)
-elif st.session_state.active_view == "HUB":
+else st.session_state.active_view == "HUB":
 st.subheader("🛠️ Operations Menu Hub")
 st.markdown('', unsafe_allow_html=True)
 hub_modules = ["Economía", "Organizaciones", "Conflicto", "Personal", "Conocimiento", "Universidad", "Ranking", "Ajustes"]
