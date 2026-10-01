@@ -1,8 +1,7 @@
 import streamlit as st
 import random
+import json
 import math
-import uuid
-import time
 
 # Force strict dark mobile-first viewport parameters
 st.set_page_config(page_title="World Order Sandbox", page_icon="🌐", layout="centered")
@@ -116,23 +115,14 @@ if "active_view" not in st.session_state:
 if "sub_hub_view" not in st.session_state:
     st.session_state.sub_hub_view = "MENU"
 
-# Macro-Economic & Demographic Tracking Variables
+# NationCraft Function Variables
 if "unrest" not in st.session_state: st.session_state.unrest = 20.0
-if "sol" not in st.session_state: st.session_state.sol = 50.0
-if "currency_code" not in st.session_state: st.session_state.currency_code = "VES"
-if "price_index" not in st.session_state: st.session_state.price_index = 1.0
-
-# Capital Machinery Stocks & Real-Time Combat Arrays
-if "steel_stock" not in st.session_state: st.session_state.steel_stock = 2500.0
-if "ic_stock" not in st.session_state: st.session_state.ic_stock = 500.0
-if "attacker_org" not in st.session_state: st.session_state.attacker_org = 100.0
-if "defender_org" not in st.session_state: st.session_state.defender_org = 100.0
-if "hospital_queue_count" not in st.session_state: st.session_state.hospital_queue_count = 0
-
-# Character Stats & University Knowledge Registers
-if "intelligence" not in st.session_state: st.session_state.intelligence = 100.0
-if "business_ade" not in st.session_state: st.session_state.business_ade = 500.0
-if "military_academy" not in st.session_state: st.session_state.military_academy = 450.0
+if "treasury_gold" not in st.session_state: st.session_state.treasury_gold = 10000.0
+if "raw_iron" not in st.session_state: st.session_state.raw_iron = 1000.0
+if "refined_steel" not in st.session_state: st.session_state.refined_steel = 0.0
+if "military_aggression" not in st.session_state: st.session_state.military_aggression = 10.0
+if "territory_size_km2" not in st.session_state: st.session_state.territory_size_km2 = 505990 # Spain Base Size
+if "reserve_interest_slider" not in st.session_state: st.session_state.reserve_interest_slider = 4.0
 
 if "map_colors" not in st.session_state:
     st.session_state.map_colors = {"NA": "#D6001C", "SA": "#008A4B", "EU": "#0044FF", "AF": "#FFBB00", "OC": "#7C3AED"}
@@ -152,7 +142,7 @@ if not st.session_state.game_initialized:
 
     st.write("---")
     st.markdown("##### 🗳️ Political Affiliation Matrix")
-    party_action = st.radio("Select your entry path into parliament:", ["Create a brand new political party", "Join an existing ideological AI faction"])
+    party_action = st.radio("Select your path into parliament:", ["Create a brand new political party", "Join an existing ideological AI faction"])
     chosen_party = st.text_input("Enter your unique political faction title name:", placeholder="e.g., Technocratic Freedom Front") if party_action == "Create a brand new political party" else st.selectbox("Select target AI alliance:", ["Ascendancy Capital Faction (CAPITALIST)", "Workers Syndicate Union (SOCIALIST)", "National Sovereignty League (NATIONALIST)"])
     
     st.write("---")
@@ -166,29 +156,37 @@ if not st.session_state.game_initialized:
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ----------------------------------------------------
-# 🎮 SCENE 2: UNSCRIPTED VOLATILE SIMULATION HEARBEATS
+# 2. GAME SUBSYSTEM FUNCTIONS
 # ----------------------------------------------------
 else:
     st.markdown(f'<div class="top-notification-banner">👑 Sovereign Territory: {st.session_state.player_country} | Active Party: {st.session_state.player_party}</div>', unsafe_allow_html=True)
 
     # --- VIEW RADAR: HOME PROFILE VIEW ---
     if st.session_state.active_view == "HOME":
-        st.subheader("👤 Character Dashboard Profile")
+        st.subheader("📊 National Strategy Status")
         
         st.markdown('<div class="tactical-hud-card">', unsafe_allow_html=True)
         col_char1, col_char2 = st.columns(2)
         with col_char1:
-            st.write(f"🧠 Intelligence Attribute: **{st.session_state.intelligence:.1f}**")
-            st.write(f"📈 Business Degree (ADE): **{st.session_state.business_ade:.2f} pts**")
+            st.write(f"🪙 Treasury Reserves: **{st.session_state.treasury_gold:,.2f} Gold**")
+            st.write(f"🗺️ Total Territory Size: **{st.session_state.territory_size_km2:,.0f} km²**")
         with col_char2:
-            st.write(f"🪖 Military Academy Skill: **{st.session_state.military_academy:.2f} pts**")
-            st.write(f"💵 Local Cash Pool: **${random.uniform(500, 3000):,.2f} {st.session_state.st.session_state.currency_code}**")
-        
-        if st.button("📚 Study Course (Simulate Skills Upgrade Floor)"):
-            st.session_state.intelligence += 2.5
-            st.session_state.business_ade += 15.0
-            st.success("Upgraded core attribute vectors successfully!")
+            st.write(f"⚡ Military Aggression Rating: **{st.session_state.military_aggression:.1f}/100**")
+            st.write(f"📉 Domestic Tension Unrest: **{st.session_state.unrest:.1f}%**")
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Volatile Real-Time Ticker Advancements
+        # NationCraft Function: Territory Expansion Engine
         st.markdown('<div class="tactical-hud-card">', unsafe_allow_html=True)
+        st.write("##### 🗺️ Expansion & Conquest Vectors")
+        if st.button("Fund Colonial Expansion Shift (-2,500 Gold)", use_container_width=True):
+            if st.session_state.treasury_gold >= 2500.0:
+                st.session_state.treasury_gold -= 2500.0
+                st.session_state.territory_size_km2 += random.randint(5000, 25000)
+                st.session_state.military_aggression = min(100.0, st.session_state.military_aggression + 5.0)
+                st.success("Territory limits successfully expanded via diplomatic annexation!")
+                st.rerun()
+            else:
+                st.error("Insufficient national gold reserves inside the treasury.")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Volatile Engine Loop Ticks
