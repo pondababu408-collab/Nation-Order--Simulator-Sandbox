@@ -204,5 +204,3 @@ else:
         c_af = st.session_state.map_vector_colors["Africa_Sectors"]
         c_oc = st.session_state.map_vector_colors["Oceania_Base"]
         
-80" y="240" fill="#fff" font-size="12" font-weight="bold">South America</text>
-                    
