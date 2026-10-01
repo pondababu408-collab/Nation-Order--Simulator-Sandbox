@@ -128,11 +128,11 @@ if "map_vector_colors" not in st.session_state:
     }
 
 # ----------------------------------------------------
-# 🎬 GAME STARTING SETUP GATES INTERFACE
+# 🎬 GAME INTERFACE ENTRY CONTROLLER
 # ----------------------------------------------------
 if not st.session_state.game_initialized:
     st.title("🌐 World Order Simulator")
-    st.subheader("Initialize Your Sovereign Sandbox State")
+    st.subheader("Initialize Your Sandbox State")
     
     st.markdown('<div class="setup-frame-card">', unsafe_allow_html=True)
     
@@ -177,10 +177,8 @@ if not st.session_state.game_initialized:
             
     st.markdown('</div>', unsafe_allow_html=True)
 
-# ----------------------------------------------------
-# 🎮 LIVE SIMULATION GAMEPLAY SUB-ROUTER MODAL FRAMES
-# ----------------------------------------------------
 else:
+    # This block executes smoothly once game_initialized evaluates to True
     st.markdown(f'<div class="top-notification-banner">👑 Sovereign Territory: {st.session_state.player_country} | Active Party: {st.session_state.player_party}</div>', unsafe_allow_html=True)
 
     if st.session_state.active_view == "HOME":
@@ -214,10 +212,7 @@ else:
                     <text x="60" y="60" fill="#fff" font-size="12" font-weight="bold">North America</text>
                     
                     <rect x="160" y="210" width="140" height="150" rx="12" fill="{c_sa}" opacity="0.85"/>
-ta para mi jajaja
-
-
-P. Antón Rayne @Anton
+tón Rayne @Anton
 Como pueden detener la ley si tenemos la mayoría del congreso
 
 """, unsafe_allow_html=True)
