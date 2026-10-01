@@ -2,7 +2,7 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="World Order Sandbox", page_icon="🌐", layout="compact")
+st.set_page_config(page_title="World Order Sandbox", page_icon="🌐", layout="centered")
 
 st.markdown("""
     <style>
