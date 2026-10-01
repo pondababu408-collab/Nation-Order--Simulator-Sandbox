@@ -78,7 +78,7 @@ st.markdown("""
         text-align: center;
     }
     .grid-node-icon { font-size: 18px; margin-bottom: 2px; }
-    .grid-node-label { font-size: 9px; color: #A0AEC0; font-weight: 500; }
+    .grid-node-item-label { font-size: 9px; color: #A0AEC0; font-weight: 500; }
     
     /* Container Display Blocks */
     .hud-display-card {
@@ -171,22 +171,22 @@ st.markdown('<div class="section-header-title">🛠️ Master Operations Hub</di
 
 st.markdown("""
 <div class="master-hub-grid">
-    <div class="grid-node-item"><div class="grid-node-icon">💵</div><div class="grid-node-label">Economy</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">🏛️</div><div class="grid-node-label">Organizations</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">🔥</div><div class="grid-node-label">Conflict</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">👤</div><div class="grid-node-label">Personal</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">✨</div><div class="grid-node-label">Knowledge</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">🎓</div><div class="grid-node-label">University</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">🏆</div><div class="grid-node-label">Ranking</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">🌍</div><div class="grid-node-label">Supranational</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">✉️</div><div class="grid-node-label">Messages</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">👑</div><div class="grid-node-label">Premium</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">🏪</div><div class="grid-node-label">Store</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">📺</div><div class="grid-node-label">Ads</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">ℹ️</div><div class="grid-node-label">Tutorial</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">📜</div><div class="grid-node-label">Rules</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">👥</div><div class="grid-node-label">Society</div></div>
-    <div class="grid-node-item"><div class="grid-node-icon">⚙️</div><div class="grid-node-label">Settings</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">💵</div><div class="grid-node-item-label">Economy</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">🏛️</div><div class="grid-node-item-label">Organizations</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">🔥</div><div class="grid-node-item-label">Conflict</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">👤</div><div class="grid-node-item-label">Personal</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">✨</div><div class="grid-node-item-label">Knowledge</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">🎓</div><div class="grid-node-item-label">University</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">🏆</div><div class="grid-node-item-label">Ranking</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">🌍</div><div class="grid-node-item-label">Supranational</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">✉️</div><div class="grid-node-item-label">Messages</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">👑</div><div class="grid-node-item-label">Premium</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">🏪</div><div class="grid-node-item-label">Store</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">📺</div><div class="grid-node-item-label">Ads</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">ℹ️</div><div class="grid-node-item-label">Tutorial</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">📜</div><div class="grid-node-item-label">Rules</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">👥</div><div class="grid-node-item-label">Society</div></div>
+    <div class="grid-node-item"><div class="grid-node-icon">⚙️</div><div class="grid-node-item-label">Settings</div></div>
 </div>
 """, unsafe_allow_html=True)
 
