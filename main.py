@@ -178,7 +178,6 @@ if not st.session_state.game_initialized:
     st.markdown('</div>', unsafe_allow_html=True)
 
 else:
-    # This block executes smoothly once game_initialized evaluates to True
     st.markdown(f'<div class="top-notification-banner">👑 Sovereign Territory: {st.session_state.player_country} | Active Party: {st.session_state.player_party}</div>', unsafe_allow_html=True)
 
     if st.session_state.active_view == "HOME":
@@ -212,3 +211,5 @@ else:
                     <text x="60" y="60" fill="#fff" font-size="12" font-weight="bold">North America</text>
                     
                     <rect x="160" y="210" width="140" height="150" rx="12" fill="{c_sa}" opacity="0.85"/>
+                    <text x="180" y="240" fill="#fff" font-size="12" font-weight="bold">South America</text>
+                    
