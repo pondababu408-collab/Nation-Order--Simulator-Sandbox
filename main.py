@@ -1,15 +1,16 @@
 import streamlit as st
 import random
-import json
 import math
+import uuid
+import time
 
-# Force dark mobile frame viewport configurations
+# Force strict dark mobile-first viewport parameters
 st.set_page_config(page_title="World Order Sandbox", page_icon="🌐", layout="centered")
 
-# 🎨 Inject structural dark theme stylesheets matching design grids exactly
+# 🎨 Inject clean visual styling matching layout screenshots exactly
 st.markdown("""
     <style>
-    /* Wipe standard Streamlit layout containers */
+    /* Wipe default Streamlit clutter components out of frame */
     [data-testid="stHeader"], [data-testid="stSidebar"], .stDeployButton, footer {
         display: none !important;
     }
@@ -18,7 +19,7 @@ st.markdown("""
         color: #E2E8F0 !important;
     }
     
-    /* Top Full Width Alert Notification Strip */
+    /* Top Full Width Alert Banner */
     .top-notification-banner {
         border: 1px solid #10B981;
         background-color: rgba(16, 185, 129, 0.04);
@@ -31,7 +32,7 @@ st.markdown("""
         margin-bottom: 20px;
     }
     
-    /* Operations Grid Layout */
+    /* Responsive Menu Icon Grid Layout System */
     .more-hub-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -48,17 +49,14 @@ st.markdown("""
     .node-icon { font-size: 20px; margin-bottom: 6px; }
     .node-label { font-size: 12px; color: #94A3B8; font-weight: 500; }
     
-    /* Legend Containers */
-    .map-legend-box {
+    /* Display HUD Card Layout Blocks */
+    .tactical-hud-card {
         background-color: #0D0D11;
         border: 1px solid #1A1A24;
         border-radius: 6px;
-        padding: 12px;
-        margin-top: 10px;
-        font-size: 12px;
+        padding: 14px;
+        margin-bottom: 12px;
     }
-    
-    /* Onboarding Setup Cards */
     .setup-frame-card {
         background-color: #0A0A0C;
         border: 1px solid #1A1A1E;
@@ -70,7 +68,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ----------------------------------------------------
-# COMPREHENSIVE GLOBAL COUNTRIES MAP REGISTRY
+# 🏛️ COMPREHENSIVE 193 COUNTRIES GEOPOLITICAL MASTER ROSTER
 # ----------------------------------------------------
 ALL_COUNTRIES = [
     "Antigua and Barbuda", "Bahamas", "Barbados", "Belize", "Canada", "Costa Rica", "Cuba", 
@@ -105,7 +103,7 @@ ALL_COUNTRIES = [
 ]
 
 # ----------------------------------------------------
-# SYSTEM STATE REGISTER DEFAULTS
+# 💾 PERSISTENT ENGINE STATE INITIALIZATION
 # ----------------------------------------------------
 if "game_initialized" not in st.session_state:
     st.session_state.game_initialized = False
@@ -115,56 +113,49 @@ if "player_party" not in st.session_state:
     st.session_state.player_party = ""
 if "active_view" not in st.session_state:
     st.session_state.active_view = "HOME"
-if "unrest" not in st.session_state:
-    st.session_state.unrest = 20.0
+if "sub_hub_view" not in st.session_state:
+    st.session_state.sub_hub_view = "MENU"
 
-if "map_vector_colors" not in st.session_state:
-    st.session_state.map_vector_colors = {
-        "North_America": "#D6001C",
-        "South_America": "#008A4B",
-        "Eurasia_Bloc": "#0044FF",
-        "Africa_Sectors": "#FFBB00",
-        "Oceania_Base": "#7C3AED"
-    }
+# Macro-Economic & Demographic Tracking Variables
+if "unrest" not in st.session_state: st.session_state.unrest = 20.0
+if "sol" not in st.session_state: st.session_state.sol = 50.0
+if "currency_code" not in st.session_state: st.session_state.currency_code = "VES"
+if "price_index" not in st.session_state: st.session_state.price_index = 1.0
+
+# Capital Machinery Stocks & Real-Time Combat Arrays
+if "steel_stock" not in st.session_state: st.session_state.steel_stock = 2500.0
+if "ic_stock" not in st.session_state: st.session_state.ic_stock = 500.0
+if "attacker_org" not in st.session_state: st.session_state.attacker_org = 100.0
+if "defender_org" not in st.session_state: st.session_state.defender_org = 100.0
+if "hospital_queue_count" not in st.session_state: st.session_state.hospital_queue_count = 0
+
+# Character Stats & University Knowledge Registers
+if "intelligence" not in st.session_state: st.session_state.intelligence = 100.0
+if "business_ade" not in st.session_state: st.session_state.business_ade = 500.0
+if "military_academy" not in st.session_state: st.session_state.military_academy = 450.0
+
+if "map_colors" not in st.session_state:
+    st.session_state.map_colors = {"NA": "#D6001C", "SA": "#008A4B", "EU": "#0044FF", "AF": "#FFBB00", "OC": "#7C3AED"}
 
 # ----------------------------------------------------
-# 🎬 GAME INTERFACE ENTRY CONTROLLER
+# 🎬 SCENE 1: STARTING GEOPOLITICAL ONBOARDING GATES
 # ----------------------------------------------------
 if not st.session_state.game_initialized:
     st.title("🌐 World Order Simulator")
-    st.subheader("Initialize Your Sandbox State")
-    
+    st.subheader("Initialize Your Sovereign Sandbox State")
     st.markdown('<div class="setup-frame-card">', unsafe_allow_html=True)
     
     st.markdown("##### 🏛️ Country Creation Strategy Blueprint")
     country_options = ["[Create Custom Nation Definition]"] + ALL_COUNTRIES
-    country_choice = st.selectbox(
-        "Choose an official territory node or register your own:",
-        country_options,
-        index=ALL_COUNTRIES.index("Spain") + 1 if "Spain" in ALL_COUNTRIES else 0
-    )
-    
-    if country_choice == "[Create Custom Nation Definition]":
-        custom_country_name = st.text_input("Enter your custom Country identifier name:", placeholder="e.g., Republic of Arauzita")
-        chosen_country = custom_country_name if custom_country_name else "Custom Republic"
-    else:
-        chosen_country = country_choice
+    country_choice = st.selectbox("Select or spawn your territory node coordinate:", country_options, index=ALL_COUNTRIES.index("Spain")+1 if "Spain" in ALL_COUNTRIES else 0)
+    chosen_country = st.text_input("Custom Nation Title ID:", "Republic of Arauzita") if country_choice == "[Create Custom Nation Definition]" else country_choice
 
     st.write("---")
-    
     st.markdown("##### 🗳️ Political Affiliation Matrix")
-    party_action = st.radio(
-        "Select your path into the state parliamentary house:",
-        ["Create a brand new political party", "Join an existing ideological AI faction"]
-    )
+    party_action = st.radio("Select your entry path into parliament:", ["Create a brand new political party", "Join an existing ideological AI faction"])
+    chosen_party = st.text_input("Enter your unique political faction title name:", placeholder="e.g., Technocratic Freedom Front") if party_action == "Create a brand new political party" else st.selectbox("Select target AI alliance:", ["Ascendancy Capital Faction (CAPITALIST)", "Workers Syndicate Union (SOCIALIST)", "National Sovereignty League (NATIONALIST)"])
     
-    if party_action == "Create a brand new political party":
-        chosen_party = st.text_input("Enter your unique political faction title name:", placeholder="e.g., Technocratic Freedom Front")
-    else:
-        chosen_party = st.selectbox("Select target AI political alliance group:", ["Ascendancy Capital Faction (CAPITALIST)", "Workers Syndicate Union (SOCIALIST)", "National Sovereignty League (NATIONALIST)"])
-        
     st.write("---")
-    
     if st.button("🚀 Launch Sovereign Simulation Engine", use_container_width=True):
         if chosen_country and chosen_party:
             st.session_state.player_country = chosen_country
@@ -172,35 +163,32 @@ if not st.session_state.game_initialized:
             st.session_state.game_initialized = True
             st.balloons()
             st.rerun()
-        else:
-            st.error("Validation error: All configuration fields must possess values.")
-            
     st.markdown('</div>', unsafe_allow_html=True)
 
+# ----------------------------------------------------
+# 🎮 SCENE 2: UNSCRIPTED VOLATILE SIMULATION HEARBEATS
+# ----------------------------------------------------
 else:
     st.markdown(f'<div class="top-notification-banner">👑 Sovereign Territory: {st.session_state.player_country} | Active Party: {st.session_state.player_party}</div>', unsafe_allow_html=True)
 
+    # --- VIEW RADAR: HOME PROFILE VIEW ---
     if st.session_state.active_view == "HOME":
         st.subheader("👤 Character Dashboard Profile")
-        col_stat1, col_stat2 = st.columns(2)
-        with col_stat1:
-            st.metric("Systemic Country Unrest", f"{st.session_state.unrest:.1f}%")
-        with col_stat2:
-            st.metric("Sovereign Legal Status", "Active Citizen")
-            
-        if st.button("Tick Environment Volatility Matrix", use_container_width=True):
-            st.session_state.unrest = random.uniform(5.0, 95.0)
-            if st.session_state.unrest > 60.0:
-                st.session_state.map_vector_colors["Eurasia_Bloc"] = "#FFBB00"
-            else:
-                st.session_state.map_vector_colors["Eurasia_Bloc"] = "#0044FF"
-            st.rerun()
-
-    elif st.session_state.active_view == "WORLD":
-        st.subheader("🌍 Interactive Vector World Viewport Map")
-        c_na = st.session_state.map_vector_colors["North_America"]
-        c_sa = st.session_state.map_vector_colors["South_America"]
-        c_eu = st.session_state.map_vector_colors["Eurasia_Bloc"]
-        c_af = st.session_state.map_vector_colors["Africa_Sectors"]
-        c_oc = st.session_state.map_vector_colors["Oceania_Base"]
         
+        st.markdown('<div class="tactical-hud-card">', unsafe_allow_html=True)
+        col_char1, col_char2 = st.columns(2)
+        with col_char1:
+            st.write(f"🧠 Intelligence Attribute: **{st.session_state.intelligence:.1f}**")
+            st.write(f"📈 Business Degree (ADE): **{st.session_state.business_ade:.2f} pts**")
+        with col_char2:
+            st.write(f"🪖 Military Academy Skill: **{st.session_state.military_academy:.2f} pts**")
+            st.write(f"💵 Local Cash Pool: **${random.uniform(500, 3000):,.2f} {st.session_state.st.session_state.currency_code}**")
+        
+        if st.button("📚 Study Course (Simulate Skills Upgrade Floor)"):
+            st.session_state.intelligence += 2.5
+            st.session_state.business_ade += 15.0
+            st.success("Upgraded core attribute vectors successfully!")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+        # Volatile Real-Time Ticker Advancements
+        st.markdown('<div class="tactical-hud-card">', unsafe_allow_html=True)
