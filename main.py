@@ -1,14 +1,15 @@
 import streamlit as st
 import random
 import json
+import math
 
-# Force dark mobile frame viewport parameters
+# Force dark mobile frame viewport configurations
 st.set_page_config(page_title="World Order Sandbox", page_icon="🌐", layout="centered")
 
-# 🎨 Inject structural dark theme styles matching layout requirements
+# 🎨 Inject structural dark theme stylesheets matching design grids exactly
 st.markdown("""
     <style>
-    /* Wipe standard Streamlit element borders out of layout boxes */
+    /* Wipe standard Streamlit layout containers */
     [data-testid="stHeader"], [data-testid="stSidebar"], .stDeployButton, footer {
         display: none !important;
     }
@@ -17,7 +18,7 @@ st.markdown("""
         color: #E2E8F0 !important;
     }
     
-    /* Top Full Width Alert Banner */
+    /* Top Full Width Alert Notification Strip */
     .top-notification-banner {
         border: 1px solid #10B981;
         background-color: rgba(16, 185, 129, 0.04);
@@ -30,7 +31,7 @@ st.markdown("""
         margin-bottom: 20px;
     }
     
-    /* Grid Layout Matrix Systems */
+    /* Operations Grid Layout */
     .more-hub-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -43,12 +44,11 @@ st.markdown("""
         border-radius: 8px;
         padding: 16px;
         text-align: center;
-        cursor: pointer;
     }
     .node-icon { font-size: 20px; margin-bottom: 6px; }
     .node-label { font-size: 12px; color: #94A3B8; font-weight: 500; }
     
-    /* Map Vector Card Containers */
+    /* Legend Containers */
     .map-legend-box {
         background-color: #0D0D11;
         border: 1px solid #1A1A24;
@@ -58,7 +58,7 @@ st.markdown("""
         font-size: 12px;
     }
     
-    /* Center Setup Component Cards */
+    /* Onboarding Setup Cards */
     .setup-frame-card {
         background-color: #0A0A0C;
         border: 1px solid #1A1A1E;
@@ -68,6 +68,41 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
+
+# ----------------------------------------------------
+# COMPREHENSIVE GLOBAL COUNTRIES MAP REGISTRY
+# ----------------------------------------------------
+ALL_COUNTRIES = [
+    "Antigua and Barbuda", "Bahamas", "Barbados", "Belize", "Canada", "Costa Rica", "Cuba", 
+    "Dominica", "Dominican Republic", "El Salvador", "Grenada", "Guatemala", "Haiti", 
+    "Honduras", "Jamaica", "Mexico", "Nicaragua", "Panama", "Saint Kitts and Nevis", 
+    "Saint Lucia", "Saint Vincent and the Grenadines", "Trinidad and Tobago", "United States of America",
+    "Argentina", "Bolivia", "Brazil", "Chile", "Colombia", "Ecuador", "Guyana", 
+    "Paraguay", "Peru", "Suriname", "Uruguay", "Venezuela",
+    "Afghanistan", "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Bahrain", 
+    "Bangladesh", "Belarus", "Belgium", "Bhutan", "Bosnia and Herzegovina", "Brunei", 
+    "Bulgaria", "Cambodia", "China", "Croatia", "Cyprus", "Czech Republic", "Denmark", 
+    "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", 
+    "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy", "Japan", "Jordan", 
+    "Kazakhstan", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Liechtenstein", 
+    "Lithuania", "Luxembourg", "Maldives", "Malta", "Moldova", "Monaco", "Mongolia", 
+    "Montenegro", "Myanmar", "Nepal", "Netherlands", "North Korea", "North Macedonia", 
+    "Norway", "Oman", "Pakistan", "Palestine", "Philippines", "Poland", "Portugal", "Qatar", 
+    "Romania", "Russia", "San Marino", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", 
+    "Slovenia", "South Korea", "Spain", "Sri Lanka", "Sweden", "Switzerland", "Syria", 
+    "Tajikistan", "Thailand", "Timor-Leste", "Turkey", "Turkmenistan", "UAE", "Ukraine", 
+    "United Kingdom", "Uzbekistan", "Vietnam", "Yemen",
+    "Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cabo Verde", 
+    "Cameroon", "Central African Republic", "Chad", "Comoros", "Congo (Brazzaville)", 
+    "Congo (Kinshasa)", "Djibouti", "Egypt", "Equatorial Guinea", "Eritrea", "Eswatini", 
+    "Ethiopia", "Gabon", "Gambia", "Ghana", "Guinea", "Guinea-Bissau", "Ivory Coast", 
+    "Kenya", "Lesotho", "Liberia", "Libya", "Madagascar", "Malawi", "Mali", "Mauritania", 
+    "Mauritius", "Morocco", "Mozambique", "Namibia", "Niger", "Nigeria", "Rwanda", 
+    "Sao Tome and Principe", "Senegal", "Seychelles", "Sierra Leone", "Somalia", "South Africa", 
+    "South Sudan", "Sudan", "Tanzania", "Togo", "Tunisia", "Uganda", "Zambia", "Zimbabwe",
+    "Australia", "Fiji", "Kiribati", "Marshall Islands", "Micronesia", "Nauru", "New Zealand", 
+    "Palau", "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu"
+]
 
 # ----------------------------------------------------
 # SYSTEM STATE REGISTER DEFAULTS
@@ -81,16 +116,15 @@ if "player_party" not in st.session_state:
 if "active_view" not in st.session_state:
     st.session_state.active_view = "HOME"
 if "unrest" not in st.session_state:
-    st.session_state.unrest = 22.5
+    st.session_state.unrest = 20.0
 
-# Seed initial unscripted geopolitical vector color registry parameters (Image 3 Mapping)
 if "map_vector_colors" not in st.session_state:
     st.session_state.map_vector_colors = {
-        "North_America": "#D6001C", # Capitalist Red Alignment
-        "South_America": "#008A4B", # Agrarian Green Alignment
-        "Eurasia_Bloc": "#0044FF",  # Planned Economy Blue Bloc
-        "Africa_Sectors": "#FFBB00", # Unrest Disturbance Yellow Layer
-        "Oceania_Base": "#7C3AED"    # Nationalist Purple Axis
+        "North_America": "#D6001C",
+        "South_America": "#008A4B",
+        "Eurasia_Bloc": "#0044FF",
+        "Africa_Sectors": "#FFBB00",
+        "Oceania_Base": "#7C3AED"
     }
 
 # ----------------------------------------------------
@@ -102,11 +136,12 @@ if not st.session_state.game_initialized:
     
     st.markdown('<div class="setup-frame-card">', unsafe_allow_html=True)
     
-    # Step A: Choose or Create Sovereign Identity Details
     st.markdown("##### 🏛️ Country Creation Strategy Blueprint")
+    country_options = ["[Create Custom Nation Definition]"] + ALL_COUNTRIES
     country_choice = st.selectbox(
-        "Choose an existing baseline territory or register your own:",
-        ["[Create Custom Nation Definition]", "Madrid, Reino de España", "United States of America", "Eurasia Central Union"]
+        "Choose an official territory node or register your own:",
+        country_options,
+        index=ALL_COUNTRIES.index("Spain") + 1 if "Spain" in ALL_COUNTRIES else 0
     )
     
     if country_choice == "[Create Custom Nation Definition]":
@@ -117,7 +152,6 @@ if not st.session_state.game_initialized:
 
     st.write("---")
     
-    # Step B: Political Faction Affiliation Matrix Selection
     st.markdown("##### 🗳️ Political Affiliation Matrix")
     party_action = st.radio(
         "Select your path into the state parliamentary house:",
@@ -147,79 +181,40 @@ if not st.session_state.game_initialized:
 # 🎮 LIVE SIMULATION GAMEPLAY SUB-ROUTER MODAL FRAMES
 # ----------------------------------------------------
 else:
-    # Render Application Top Header Alerts
-    st.markdown(f'<div class="top-notification-banner">🔔 Live Context: {st.session_state.player_country} | Active Party: {st.session_state.player_party}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="top-notification-banner">👑 Sovereign Territory: {st.session_state.player_country} | Active Party: {st.session_state.player_party}</div>', unsafe_allow_html=True)
 
     if st.session_state.active_view == "HOME":
         st.subheader("👤 Character Dashboard Profile")
-        
-        # Display custom profile data variables without external player strings
         col_stat1, col_stat2 = st.columns(2)
         with col_stat1:
-            st.metric("Systemic Regional Unrest", f"{st.session_state.unrest:.1f}%")
+            st.metric("Systemic Country Unrest", f"{st.session_state.unrest:.1f}%")
         with col_stat2:
             st.metric("Sovereign Legal Status", "Active Citizen")
             
         if st.button("Tick Environment Volatility Matrix", use_container_width=True):
             st.session_state.unrest = random.uniform(5.0, 95.0)
-            # Volatile color shifts trigger unscripted based on unrest parameters (Image 3)
             if st.session_state.unrest > 60.0:
-                st.session_state.map_vector_colors["Eurasia_Bloc"] = "#FFBB00" # Shift to crisis yellow
+                st.session_state.map_vector_colors["Eurasia_Bloc"] = "#FFBB00"
             else:
-                st.session_state.map_vector_colors["Eurasia_Bloc"] = "#0044FF" # Revert to planned blue
+                st.session_state.map_vector_colors["Eurasia_Bloc"] = "#0044FF"
             st.rerun()
 
     elif st.session_state.active_view == "WORLD":
-        # Image 3: Interactive Vector Color Properties for the World Map View
         st.subheader("🌍 Interactive Vector World Viewport Map")
-        
-        # Pull live color strings from system session data memory storage banks
         c_na = st.session_state.map_vector_colors["North_America"]
         c_sa = st.session_state.map_vector_colors["South_America"]
         c_eu = st.session_state.map_vector_colors["Eurasia_Bloc"]
         c_af = st.session_state.map_vector_colors["Africa_Sectors"]
         c_oc = st.session_state.map_vector_colors["Oceania_Base"]
         
-        # Inject interactive responsive vector map layer SVG frame (Image 3 exact representation)
         st.markdown(f"""
             <div style="background-color: #060608; border: 1px solid #1A1A24; border-radius: 8px; padding: 16px; text-align: center;">
                 <svg viewBox="0 0 800 400" xmlns="http://w3.org" style="width: 100%; height: auto;">
-                    <!-- North America Map Vector Shape Node -->
-                    <rect x="40" y="30" width="240" height="140" rx="12" fill="{c_na}" opacity="0.85" style="cursor: pointer;"/>
-                    <text x="60" y="60" fill="#fff" font-size="12" font-weight="bold">North America (Red Bloc)</text>
+                    <rect x="40" y="30" width="240" height="140" rx="12" fill="{c_na}" opacity="0.85"/>
+                    <text x="60" y="60" fill="#fff" font-size="12" font-weight="bold">North America</text>
                     
-                    <!-- South America Map Vector Shape Node -->
-                    <rect x="160" y="210" width="140" height="150" rx="12" fill="{c_sa}" opacity="0.85" style="cursor: pointer;"/>
-                    <text x="180" y="240" fill="#fff" font-size="12" font-weight="bold">South America (Green)</text>
-                    
-                    <!-- Eurasia Bloc Map Vector Shape Node -->
-                    <rect x="340" y="20" width="420" height="150" rx="12" fill="{c_eu}" opacity="0.85" style="cursor: pointer;"/>
-                    <text x="360" y="50" fill="#fff" font-size="12" font-weight="bold">Eurasia Continent (Blue Bloc)</text>
-                    
-                    <!-- Africa Sectors Map Vector Shape Node -->
-                    <rect x="380" y="200" width="150" height="170" rx="12" fill="{c_af}" opacity="0.85" style="cursor: pointer;"/>
-                    <text x="400" y="230" fill="#fff" font-size="12" font-weight="bold">Africa Sectors (Yellow)</text>
-                    
-                    <!-- Oceania Base Map Vector Shape Node -->
-                    <rect x="580" y="210" width="180" height="120" rx="12" fill="{c_oc}" opacity="0.85" style="cursor: pointer;"/>
-                    <text x="600" y="240" fill="#fff" font-size="12" font-weight="bold">Oceania Grid (Purple)</text>
-                </svg>
-            </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-            <div class="map-legend-box">
-                <strong>🎨 System Geopolitical Vector Legend:</strong><br>
-                🔴 Red: Capitalist Factions | 🔵 Blue: Planned Market Zones | 🟡 Yellow: Civil War Unrest Crises
-            </div>
-        """, unsafe_allow_html=True)
-
-    elif st.session_state.active_view == "NETWORK":
-st.subheader("📱 Volatile Social Feed Stream")
-st.markdown("""
-
-Javier Córdoba @javolo12345
-Eso es bastante nazi hasta para mi jajaja
+                    <rect x="160" y="210" width="140" height="150" rx="12" fill="{c_sa}" opacity="0.85"/>
+ta para mi jajaja
 
 
 P. Antón Rayne @Anton
